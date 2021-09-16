@@ -43,7 +43,8 @@ public class TelaCliente {
                 System.out.println("Digite a opção desejada:");
                 System.out.println("1 - Download;");
                 System.out.println("2 - Upload;");
-                System.out.println("3 - Sair;");
+                System.out.println("3 - Listar arquivos disponíveis;");
+                System.out.println("4 - Sair;");
                 int opcao = teclado.nextInt();
                 teclado.nextLine();//limpa a memória de texto
                 if (opcao == 1) {//download
@@ -54,7 +55,16 @@ public class TelaCliente {
 
                     TelaCliente.upload(teclado, out, in, opcao);
 
-                }else if(opcao == 3){//sair
+                }else if(opcao == 3){//Listar arquivos
+                    
+                    File[] arquivos = TelaCliente.listarArquivos();
+                    System.out.println("---------------------------------");
+                    for(int i = 0; i < arquivos.length; i++){
+                        System.out.println(arquivos[i].toString().replace("D:\\Projetos NetBeans\\Sistema-Cliente-Servidor\\FileServer\\", ""));
+                    }
+                    System.out.println("---------------------------------");
+                    
+                }else if(opcao == 4){//sair
 
                     TelaCliente.sair(out, in, socket, td);
 
@@ -227,5 +237,12 @@ public class TelaCliente {
             System.err.println("Erro no cliente!");
             ex.printStackTrace();
         }
+    }
+    
+    public static File[] listarArquivos(){
+        String endereco = "D:\\Projetos NetBeans\\Sistema-Cliente-Servidor\\FileServer";
+        File file = new File(endereco);
+        File[] arquivos = file.listFiles();
+        return arquivos; 
     }
 }
