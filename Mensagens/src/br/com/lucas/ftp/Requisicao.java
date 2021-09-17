@@ -22,6 +22,9 @@ public class Requisicao implements java.io.Serializable {
     //Encerramento do cliente
     public static int ENCERRA_CLIENTE = 4;
     
+    //Lista de arquivos
+    public static int LISTA_ARQUIVOS = 5;
+    
     private int menssageType;
     private String messageContent;
     private Long threadID;
@@ -82,6 +85,14 @@ public class Requisicao implements java.io.Serializable {
         FILEUPLOAD_START = aFILEUPLOAD_START;
     }
 
+    public static int getLISTA_ARQUIVOS() {
+        return LISTA_ARQUIVOS;
+    }
+
+    public static void setLISTA_ARQUIVOS(int LISTA_ARQUIVOS) {
+        Requisicao.LISTA_ARQUIVOS = LISTA_ARQUIVOS;
+    }
+    
     /**
      * @return the menssageType
      */

@@ -5,6 +5,8 @@
  */
 package br.com.lucas.ftp;
 
+import java.io.File;
+
 /**
  *
  * @author lucas
@@ -24,6 +26,7 @@ public class Resposta implements java.io.Serializable{
     private int responseCode;
     private String responseContent;
     private Long threadID;
+    private File[] arquivos;
 
     /**
      * @return the FILE_EXITS
@@ -151,4 +154,11 @@ public class Resposta implements java.io.Serializable{
         this.threadID = threadID;
     }
 
+    public File[] getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(File[] arquivos) {
+        this.arquivos = arquivos;
+    }
 }

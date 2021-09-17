@@ -54,6 +54,10 @@ public class ServidorDeArquivos extends Thread {
                                 }else if(req.getMenssageType() == Requisicao.FILEUPLOAD_REQUEST){//Requisição de upload - solicitando o upload
 
                                     ServidorDeArquivos.uploadCliente(req, rep, in, out);
+                                    
+                                }else if(req.getMenssageType() == Requisicao.LISTA_ARQUIVOS){//Requisição de lista dos arquivos
+                                    
+                                    ServidorDeArquivos.listarArquivos(req, rep, in, out);
 
                                 }else if(req.getMenssageType() == Requisicao.ENCERRA_CLIENTE){
                                     System.out.println("DEBUG - REQ: " + req.getMenssageType() + "/" + req.getMessageContent());//Histórico de requisições - encerra cliente
@@ -185,6 +189,23 @@ public class ServidorDeArquivos extends Thread {
                     fw.close();
                 }
             }
+        }catch(Exception ex){
+            System.err.println("Erro no servidor!");
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void listarArquivos(Requisicao req, Resposta rep, ObjectInputStream in, ObjectOutputStream out){
+        try{
+            String endereco = "D:\\Projetos NetBeans\\Sistema-Cliente-Servidor\\FileServer";
+            File file = new File(endereco);
+            File[] arquivos = file.listFiles();
+            
+            rep = new Resposta();
+            rep.setArquivos(arquivos);
+            rep.setResponseCode(Resposta.END_OF_FILE);
+            
+            out.writeObject(rep);
         }catch(Exception ex){
             System.err.println("Erro no servidor!");
             ex.printStackTrace();

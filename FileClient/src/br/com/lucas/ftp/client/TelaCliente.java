@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -57,12 +58,7 @@ public class TelaCliente {
 
                 }else if(opcao == 3){//Listar arquivos
                     
-                    File[] arquivos = TelaCliente.listarArquivos();
-                    System.out.println("---------------------------------");
-                    for(int i = 0; i < arquivos.length; i++){
-                        System.out.println(arquivos[i].toString().replace("D:\\Projetos NetBeans\\Sistema-Cliente-Servidor\\FileServer\\", ""));
-                    }
-                    System.out.println("---------------------------------");
+                    TelaCliente.listarArquivos(out, in);
                     
                 }else if(opcao == 4){//sair
 
@@ -222,7 +218,7 @@ public class TelaCliente {
         }
     }
     
-    public static void sair(ObjectOutputStream out, ObjectInputStream in,Socket socket, Long td){
+    public static void sair(ObjectOutputStream out, ObjectInputStream in, Socket socket, Long td){
         try{
             Requisicao req = new Requisicao();
             System.out.println("Saindo...");
@@ -239,10 +235,24 @@ public class TelaCliente {
         }
     }
     
-    public static File[] listarArquivos(){
-        String endereco = "D:\\Projetos NetBeans\\Sistema-Cliente-Servidor\\FileServer";
-        File file = new File(endereco);
-        File[] arquivos = file.listFiles();
-        return arquivos; 
+    public static void listarArquivos(ObjectOutputStream out, ObjectInputStream in){
+        try{
+            Requisicao req = new Requisicao();
+            req.setMenssageType(Requisicao.LISTA_ARQUIVOS);
+            req.setThreadID(td);
+            out.writeObject(req);
+
+            Resposta rep = (Resposta)in.readObject();
+            
+            System.out.println("---------------------------------");
+            for(int i = 0; i < rep.getArquivos().length; i++){
+                System.out.println(rep.getArquivos()[i].toString().replace("D:\\Projetos NetBeans\\Sistema-Cliente-Servidor\\FileServer\\", ""));
+            }
+            System.out.println("---------------------------------");
+
+        }catch(Exception ex){
+            System.err.println("Erro no cliente!");
+            ex.printStackTrace();
+        }
     }
 }
